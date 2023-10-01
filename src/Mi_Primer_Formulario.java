@@ -1,22 +1,21 @@
 import javax.swing.*;
 import java.text.SimpleDateFormat;
 
-
 public class Mi_Primer_Formulario {
     public static void main(String[] args) {
 
         // Crear una ventana
         JFrame ventana = new JFrame("Formulario de Información Personal");
-        ventana.setBounds(10,10,300,200);
+        ventana.setBounds(10,20,300,300); // indica la posicion
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel  p = new JPanel();
         ventana.add(p);
 
         // Crear etiquetas y campos de texto
+        // JLabel es para mostar los datos en la interfz gráfica
         JLabel labelNombre = new JLabel("NOMBRE:");
         JTextField campoNombre = new JTextField(20);
-
 
         JLabel LabelApellido = new JLabel("APELLIDO:");
         JTextField campoApellido = new JTextField(20);
@@ -37,8 +36,6 @@ public class Mi_Primer_Formulario {
         JLabel labelDomicilio = new JLabel("Domicilio:");
         JTextField campoDomicilio = new JTextField(20);
 
-
-
         // Agregar componentes a la ventana
         p.add(labelDNI);
         p.add(campoDNI);
@@ -54,12 +51,6 @@ public class Mi_Primer_Formulario {
         p.add(campoFechaNacimiento);
         p.add(labelDomicilio);
         p.add(campoDomicilio);
-
-
-
         ventana.setVisible(true);
-
-
     }
-
 }
