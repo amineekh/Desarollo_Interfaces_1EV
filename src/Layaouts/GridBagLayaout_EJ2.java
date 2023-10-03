@@ -11,13 +11,14 @@ public class GridBagLayaout_EJ2 extends JFrame{
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new java.awt.GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+
         mainPanel.add(
                 new JLabel("NOMBRE:"),
 
                 new GridBagConstraints(
-                        0,  0,  1,  1,  1.0,  1.0,
+                        0,  0,  1,  1,  1.0,  0.5,
+                        GridBagConstraints.EAST,
                         GridBagConstraints.CENTER,
-                        GridBagConstraints.BOTH,
                         new Insets(0,0,0,0),
                         0,
                         0
@@ -28,7 +29,7 @@ public class GridBagLayaout_EJ2 extends JFrame{
                 new JTextField(),
 
                 new GridBagConstraints(
-                        1,  0,  1,  1,  1.0,  3.0,
+                        1,  0,  3,  1,  1.0,  1.0,
                         GridBagConstraints.CENTER,
                         GridBagConstraints.BOTH,
                         new Insets(0,0,0,0),
@@ -47,8 +48,8 @@ public class GridBagLayaout_EJ2 extends JFrame{
 
                 new GridBagConstraints(
                         1,  1,  1, 1,  1.0, 1.0,
+                        GridBagConstraints.SOUTH,
                         GridBagConstraints.CENTER,
-                        GridBagConstraints.BOTH,
                         new Insets(0,0,0,0),
                         0,
                         0
@@ -60,8 +61,8 @@ public class GridBagLayaout_EJ2 extends JFrame{
 
                 new GridBagConstraints(
                         2,  1,  1,  1,  1.0,  1.0,
+                        GridBagConstraints.SOUTH,
                         GridBagConstraints.CENTER,
-                        GridBagConstraints.BOTH,
                         new Insets(0,0,0,0),
                         0,
                         0
@@ -73,8 +74,8 @@ public class GridBagLayaout_EJ2 extends JFrame{
 
                 new GridBagConstraints(
                         3,  1,  1,  1,  1.0,  1.0,
+                        GridBagConstraints.SOUTH,
                         GridBagConstraints.CENTER,
-                        GridBagConstraints.BOTH,
                         new Insets(0,0,0,0),
                         0,
                         0
@@ -86,8 +87,8 @@ public class GridBagLayaout_EJ2 extends JFrame{
 
                 new GridBagConstraints(
                         0,  2,  1,  1,  1.0,  1.0,
+                        GridBagConstraints.EAST,
                         GridBagConstraints.CENTER,
-                        GridBagConstraints.BOTH,
                         new Insets(0,0,0,0),
                         0,
                         0
@@ -119,7 +120,7 @@ public class GridBagLayaout_EJ2 extends JFrame{
         mainPanel.add(
                 new JTextField(),
                 new GridBagConstraints(
-                        4,  2,  1,  1,  1.0,  1.0,
+                        3,  2,  1,  1,  1.0,  1.0,
                         GridBagConstraints.CENTER,
                         GridBagConstraints.BOTH,
                         new Insets(0,0,0,0),
@@ -133,8 +134,8 @@ public class GridBagLayaout_EJ2 extends JFrame{
 
                 new GridBagConstraints(
                         0,  3,  1,  1,  1.0,  1.0,
+                        GridBagConstraints.EAST,
                         GridBagConstraints.CENTER,
-                        GridBagConstraints.BOTH,
                         new Insets(0,0,0,0),
                         0,
                         0
@@ -158,8 +159,8 @@ public class GridBagLayaout_EJ2 extends JFrame{
 
                 new GridBagConstraints(
                         2,  3,  1,  1,  1.0,  1.0,
+                        GridBagConstraints.SOUTH,
                         GridBagConstraints.CENTER,
-                        GridBagConstraints.BOTH,
                         new Insets(0,0,0,0),
                         0,
                         0
@@ -178,13 +179,36 @@ public class GridBagLayaout_EJ2 extends JFrame{
                 ));
         add(mainPanel);
 
+        mainPanel.add(
+                new JLabel("Description"),
 
+                new GridBagConstraints(
+                        0,  4,  1,  1,  1.0,  1.0,
+                        GridBagConstraints.NORTHEAST,
+                        GridBagConstraints.CENTER,
+                        new Insets(0,0,0,0),
+                        0,
+                        0
+                ));
+        add(mainPanel);
+
+        mainPanel.add(
+                new JTextField(),
+                new GridBagConstraints(
+                        1,  4,  3,  3,  1.0,  80.0,
+                        GridBagConstraints.CENTER,
+                        GridBagConstraints.BOTH,
+                        new Insets(0,0,0,0),
+                        0,
+                        0
+                ));
+        add(mainPanel);
 
 
         mainPanel.add(
-                new JButton("5"),
+                new JButton("Submit"),
                 new GridBagConstraints(
-                        2, 5, 2, 1, 1.0, 1.0,
+                        2, 8, 2, 1, 1.0, 1.0,
                         GridBagConstraints.SOUTH,
                         GridBagConstraints.HORIZONTAL,
                         new Insets(0,0,0,0),
