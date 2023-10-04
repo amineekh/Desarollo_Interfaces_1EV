@@ -1,7 +1,5 @@
 package Layaouts;
 
-
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -92,7 +90,7 @@ public class GridBagLayaout_Mio extends JFrame implements ActionListener {
                 ));
 
         add(mainPanel);
-        boton4.addActionListener(this);
+
 
 
         mainPanel.add(
@@ -142,7 +140,6 @@ public class GridBagLayaout_Mio extends JFrame implements ActionListener {
         GridBagLayaout_Mio GridBagLayaout_Mio = new GridBagLayaout_Mio();
         GridBagLayaout_Mio.setBounds(0,0, 400,200);
         GridBagLayaout_Mio.setVisible(true);
-
 
         GridBagLayaout_Mio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

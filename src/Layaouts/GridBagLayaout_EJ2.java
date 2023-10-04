@@ -2,14 +2,14 @@ package Layaouts;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.GridBagLayout;
 
 public class GridBagLayaout_EJ2 extends JFrame{
-
 
     public  GridBagLayaout_EJ2(){
 
         JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new java.awt.GridBagLayout());
+        mainPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
         mainPanel.add(
@@ -19,7 +19,7 @@ public class GridBagLayaout_EJ2 extends JFrame{
                         0,  0,  1,  1,  1.0,  0.5,
                         GridBagConstraints.EAST,
                         GridBagConstraints.CENTER,
-                        new Insets(0,0,0,0),
+                        new Insets(10,0,0,10),
                         0,
                         0
                 ));
@@ -32,7 +32,7 @@ public class GridBagLayaout_EJ2 extends JFrame{
                         1,  0,  3,  1,  1.0,  1.0,
                         GridBagConstraints.CENTER,
                         GridBagConstraints.BOTH,
-                        new Insets(0,0,0,0),
+                        new Insets(10,0,0,20),
                         0,
                         0
 
@@ -89,7 +89,7 @@ public class GridBagLayaout_EJ2 extends JFrame{
                         0,  2,  1,  1,  1.0,  1.0,
                         GridBagConstraints.EAST,
                         GridBagConstraints.CENTER,
-                        new Insets(0,0,0,0),
+                        new Insets(0,0,0,10),
                         0,
                         0
                 ));
@@ -123,7 +123,7 @@ public class GridBagLayaout_EJ2 extends JFrame{
                         3,  2,  1,  1,  1.0,  1.0,
                         GridBagConstraints.CENTER,
                         GridBagConstraints.BOTH,
-                        new Insets(0,0,0,0),
+                        new Insets(0,0,0,20),
                         0,
                         0
                 ));
@@ -136,7 +136,7 @@ public class GridBagLayaout_EJ2 extends JFrame{
                         0,  3,  1,  1,  1.0,  1.0,
                         GridBagConstraints.EAST,
                         GridBagConstraints.CENTER,
-                        new Insets(0,0,0,0),
+                        new Insets(0,0,0,10),
                         0,
                         0
                 ));
@@ -173,7 +173,7 @@ public class GridBagLayaout_EJ2 extends JFrame{
                         3,  3,  1,  1,  1.0,  1.0,
                         GridBagConstraints.CENTER,
                         GridBagConstraints.BOTH,
-                        new Insets(0,0,0,0),
+                        new Insets(0,0,0,20),
                         0,
                         0
                 ));
@@ -186,7 +186,7 @@ public class GridBagLayaout_EJ2 extends JFrame{
                         0,  4,  1,  1,  1.0,  1.0,
                         GridBagConstraints.NORTHEAST,
                         GridBagConstraints.CENTER,
-                        new Insets(0,0,0,0),
+                        new Insets(0,0,0,10),
                         0,
                         0
                 ));
@@ -198,7 +198,7 @@ public class GridBagLayaout_EJ2 extends JFrame{
                         1,  4,  3,  3,  1.0,  80.0,
                         GridBagConstraints.CENTER,
                         GridBagConstraints.BOTH,
-                        new Insets(0,0,0,0),
+                        new Insets(0,0,0,20),
                         0,
                         0
                 ));
@@ -211,12 +211,10 @@ public class GridBagLayaout_EJ2 extends JFrame{
                         2, 8, 2, 1, 1.0, 1.0,
                         GridBagConstraints.SOUTH,
                         GridBagConstraints.HORIZONTAL,
-                        new Insets(0,0,0,0),
+                        new Insets(0,0,10,20),
                         0,
                         0
                 ));
-
-
 
 
     }
@@ -224,7 +222,7 @@ public class GridBagLayaout_EJ2 extends JFrame{
     public static void main(String[] args) {
 
         GridBagLayaout_EJ2 tabla= new GridBagLayaout_EJ2();
-       tabla.setBounds(0,0, 400,200);
+        tabla.setBounds(0,0, 400,300);
         tabla.setVisible(true);
         tabla.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
