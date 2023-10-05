@@ -1,3 +1,5 @@
+package Primeros_Ejercicios;
+
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.Graphics;

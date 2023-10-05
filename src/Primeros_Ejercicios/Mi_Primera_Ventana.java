@@ -1,3 +1,5 @@
+package Primeros_Ejercicios;
+
 import javax.swing.*;
 
 public class Mi_Primera_Ventana {

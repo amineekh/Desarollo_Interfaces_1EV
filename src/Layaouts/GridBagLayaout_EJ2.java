@@ -159,9 +159,9 @@ public class GridBagLayaout_EJ2 extends JFrame{
 
                 new GridBagConstraints(
                         2,  3,  1,  1,  1.0,  1.0,
-                        GridBagConstraints.SOUTH,
+                        GridBagConstraints.EAST,
                         GridBagConstraints.CENTER,
-                        new Insets(0,0,0,0),
+                        new Insets(0,0,0,10),
                         0,
                         0
                 ));
@@ -222,10 +222,11 @@ public class GridBagLayaout_EJ2 extends JFrame{
     public static void main(String[] args) {
 
         GridBagLayaout_EJ2 tabla= new GridBagLayaout_EJ2();
-        tabla.setBounds(0,0, 400,300);
+        tabla.setBounds(100,100, 400,300);
         tabla.setVisible(true);
         tabla.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
 
 }
+
