@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 public class MyJListWindow extends JFrame {
 
     private DefaultListModel<String> listModel;
@@ -109,10 +108,30 @@ public class MyJListWindow extends JFrame {
         // Crear un JLabel para el texto
         JLabel titleLabel1 = new JLabel("Seleccionado: ");
         titleLabel1.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel1.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
+        // Agregar el JLabel al panel principal
+        mainPanel.add(titleLabel, BorderLayout.SOUTH);
 
-        setLocationRelativeTo(null); // Centrar la ventana en la pantalla
+        // Crear un listener para el evento de selección de la lista
+        list.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                // Obtener el índice del elemento seleccionado
+                int selectedIndex = list.getSelectedIndex();
 
+                // Obtener el valor del elemento seleccionado
+                String valorSeleccionado = "";
+                if (selectedIndex != -1) {
+                    valorSeleccionado = listModel.getElementAt(selectedIndex);
+                }
+
+                // Actualizar el texto del JLabel
+                titleLabel.setText("Seleccionado: " + valorSeleccionado);
+            }
+
+        });
 
     }
 
@@ -121,6 +140,7 @@ public class MyJListWindow extends JFrame {
         MyJListWindow tabla= new MyJListWindow();
         tabla.setBounds(100, 100, 300, 300);
         tabla.setVisible(true);
+        tabla.setLocationRelativeTo(null); // Centrar la ventana en la pantalla
         tabla.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
