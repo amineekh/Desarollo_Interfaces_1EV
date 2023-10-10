@@ -6,24 +6,44 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MyJListWindow extends JFrame {
 
     private DefaultListModel<String> listModel;
     private JList<String> list;
     private JTextField nombreTextField;
+    private JLabel mensajeLabel;
 
-
-    public  MyJListWindow(){
+    public MyJListWindow() {
         super("Ejemplo MyJListWindow");
 
-        JLabel titleLabel = new JLabel("JList");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        // Crear un JLabel para mostrar el título
+        JLabel titleLabel2 = new JLabel("JList");
+        titleLabel2.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel2.setVerticalAlignment(SwingConstants.TOP);
+        titleLabel2.setBounds(0,0,0,0);
+
+        // Agregar el JLabel al contenido del JFrame
+        add(titleLabel2, BorderLayout.NORTH);
+        titleLabel2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                titleLabel2.setForeground(Color.RED);
+            }
+
+            public void mouseExited(MouseEvent e) {
+                titleLabel2.setForeground(Color.BLACK);
+            }
+        });
+
 
         // Crear un JTextField para ingresar nombres
         nombreTextField = new JTextField(20);
+
+
 
         // Crear botón Agregar
         JButton agregarButton = new JButton("Agregar");
@@ -36,6 +56,7 @@ public class MyJListWindow extends JFrame {
                 if (!nombre.isEmpty()) {
                     listModel.addElement(nombre);
                     nombreTextField.setText("");
+                    mensajeLabel.setText("Se agregó un nuevo elemento: " + nombre);
                 }
             }
         });
@@ -53,6 +74,7 @@ public class MyJListWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 listModel.clear();
+                mensajeLabel.setText(""); // Limpiar el mensaje
             }
         });
 
@@ -63,13 +85,10 @@ public class MyJListWindow extends JFrame {
                 int selectedIndex = list.getSelectedIndex();
                 if (selectedIndex != -1) {
                     listModel.remove(selectedIndex);
+                    mensajeLabel.setText(""); // Limpiar el mensaje
                 }
             }
         });
-
-
-
-
 
         // Crear un panel para organizar el botón Agregar y el campo de texto horizontalmente
         JPanel agregarPanel = new JPanel();
@@ -85,66 +104,39 @@ public class MyJListWindow extends JFrame {
         listPanel.add(agregarPanel, BorderLayout.NORTH);
         listPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
-
         // Panel para los botones Borrar Lista y Eliminar
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.add(borrarListaButton);
         buttonPanel.add(eliminarButton);
 
-
         // Panel principal con márgenes
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10)); // Añadir márgenes
         mainPanel.add(listPanel, BorderLayout.CENTER); // Lista en el centro
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH); // Botones en la parte inferior
-        // Agregar el JLabel al panel principal
-        mainPanel.add(titleLabel, BorderLayout.NORTH);
+
+        // Agregar un JLabel para mostrar el mensaje
+        mensajeLabel = new JLabel();
+
+
+        // Panel para organizar los botones y el mensaje en la parte inferior
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BorderLayout());
+        bottomPanel.add(buttonPanel, BorderLayout.CENTER); // Botones en el centro
+        bottomPanel.add(mensajeLabel, BorderLayout.SOUTH); // Mensaje en la parte inferior
+
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH); // Agregar el panel inferior al principal
 
         // Agregar el panel principal al contenido del JFrame
-        getContentPane().add(mainPanel);
-
-        // Crear un JLabel para el texto
-        JLabel titleLabel1 = new JLabel("Seleccionado: ");
-        titleLabel1.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel1.setHorizontalAlignment(SwingConstants.CENTER);
-        titleLabel1.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
-
-        // Agregar el JLabel al panel principal
-        mainPanel.add(titleLabel, BorderLayout.SOUTH);
-
-        // Crear un listener para el evento de selección de la lista
-        list.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                // Obtener el índice del elemento seleccionado
-                int selectedIndex = list.getSelectedIndex();
-
-                // Obtener el valor del elemento seleccionado
-                String valorSeleccionado = "";
-                if (selectedIndex != -1) {
-                    valorSeleccionado = listModel.getElementAt(selectedIndex);
-                }
-
-                // Actualizar el texto del JLabel
-                titleLabel.setText("Seleccionado: " + valorSeleccionado);
-            }
-
-        });
-
+        getContentPane().add(mainPanel, BorderLayout.CENTER);
     }
 
-
     public static void main(String[] args) {
-        MyJListWindow tabla= new MyJListWindow();
+        MyJListWindow tabla = new MyJListWindow();
         tabla.setBounds(100, 100, 300, 300);
         tabla.setVisible(true);
         tabla.setLocationRelativeTo(null); // Centrar la ventana en la pantalla
         tabla.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
-
-
-
 }
