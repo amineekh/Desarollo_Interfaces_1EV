@@ -114,5 +114,3 @@ public class InterfazCompleta extends JFrame {
         interfaz.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
-
-
