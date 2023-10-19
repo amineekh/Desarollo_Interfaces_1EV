@@ -197,9 +197,9 @@ public class Calculadora extends JFrame {
 
     public static void main(String[] args) {
 
-            Calculadora calculadora= new Calculadora();
-            // Hacer visible la ventana
-            calculadora.setVisible(true);
+        Calculadora calculadora= new Calculadora();
+        // Hacer visible la ventana
+        calculadora.setVisible(true);
 
     }
 }
