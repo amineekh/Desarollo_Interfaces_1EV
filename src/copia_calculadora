@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 //calculadora funcional
 public class Calculadora extends JFrame {
@@ -14,9 +13,6 @@ public class Calculadora extends JFrame {
     private double resultado = 0;
     private String operador = "";
     private boolean inicio = true;
-
-    private Stack<Double> numeros = new Stack<>();
-    private Stack<Character> operadores = new Stack<>();
 
     public Calculadora() {
         // Configura la ventana
@@ -144,8 +140,6 @@ public class Calculadora extends JFrame {
         panelPrincipal.add(panelPantalla, BorderLayout.NORTH);
         panelPrincipal.add(panelBotones, BorderLayout.CENTER);
 
-
-
         // Agrega el panel principal a la ventana
         add(panelPrincipal);
     }
@@ -156,44 +150,31 @@ public class Calculadora extends JFrame {
             resultado = 0;
             operador = "";
             inicio = true;
-            numeros.clear();
-            operadores.clear();
-        } else if (boton.matches("[+*/-]")) {
-            operadores.push(boton.charAt(0));
-            if (!pantalla.getText().isEmpty()) {
-                numeros.push(Double.parseDouble(pantalla.getText()));
+        } else if (boton.matches("[+\\-*/]")) {
+            operador = boton;
+            resultado = Double.parseDouble(pantalla.getText());
+            inicio = true;
+        } else if (boton.equals("=")) {
+            double segundoNumero = Double.parseDouble(pantalla.getText());
+            switch (operador) {
+                case "+":
+                    resultado += segundoNumero;
+                    break;
+                case "-":
+                    resultado -= segundoNumero;
+                    break;
+                case "*":
+                    resultado *= segundoNumero;
+                    break;
+                case "/":
+                    resultado /= segundoNumero;
+                    break;
             }
-            pantalla.setText("");
+            pantalla.setText("" + resultado);
             inicio = true;
         }
-        else if (boton.equals("=")) {
-            if (!pantalla.getText().isEmpty()) {
-                numeros.push(Double.parseDouble(pantalla.getText()));
-            }
-            while (!operadores.isEmpty()) {
-                char operadorActual = operadores.pop();
-                double num2 = numeros.pop();
-                double num1 = numeros.pop();
-                switch (operadorActual) {
-                    case '+':
-                        resultado = num1 + num2;
-                        break;
-                    case '-':
-                        resultado = num1 - num2;
-                        break;
-                    case '*':
-                        resultado = num1 * num2;
-                        break;
-                    case '/':
-                        resultado = num1 / num2;
-                        break;
-                }
-                numeros.push(resultado);
-            }
-            pantalla.setText(String.valueOf(numeros.peek()));
-            resultado = numeros.pop();
-            inicio = true;
-        } else if (boton.equals(".")) {
+        // agregar lógica para otras operaciones especiales como porcentaje, raíz cuadrada y cuadrado
+        else if (boton.equals(".")) {
             if (!pantalla.getText().contains(".")) {
                 pantalla.setText(pantalla.getText() + ".");
                 inicio = false;
@@ -201,18 +182,18 @@ public class Calculadora extends JFrame {
         } else if (boton.equals("%")) {
             double numero = Double.parseDouble(pantalla.getText());
             resultado = numero / 100;
-            pantalla.setText(String.valueOf(resultado));
+            pantalla.setText("" + resultado);
         } else if (boton.equals("√")) {
             double numero = Double.parseDouble(pantalla.getText());
             resultado = Math.sqrt(numero);
-            pantalla.setText(String.valueOf(resultado));
+            pantalla.setText("" + resultado);
         } else if (boton.equals("x²")) {
             double numero = Double.parseDouble(pantalla.getText());
             resultado = Math.pow(numero, 2);
-            pantalla.setText(String.valueOf(resultado));
+            pantalla.setText("" + resultado);
         }
-    }
 
+    }
 
     public static void main(String[] args) {
 
@@ -220,5 +201,91 @@ public class Calculadora extends JFrame {
         // Hacer visible la ventana
         calculadora.setVisible(true);
 
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+private void operar(String boton) {
+    if (boton.equals("C")) {
+        pantalla.setText("");
+        resultado = 0;
+        operador = "";
+        inicio = true;
+    } else if (boton.matches("[+\\-*/]")) {
+        if (!operador.equals("")) {
+            double segundoNumero = Double.parseDouble(pantalla.getText());
+            switch (operador) {
+                case "+":
+                    resultado += segundoNumero;
+                    break;
+                case "-":
+                    resultado -= segundoNumero;
+                    break;
+                case "*":
+                    resultado *= segundoNumero;
+                    break;
+                case "/":
+                    resultado /= segundoNumero;
+                    break;
+            }
+            pantalla.setText("");
+        } else {
+            resultado = Double.parseDouble(pantalla.getText());
+            pantalla.setText("");
+        }
+        operador = boton;
+        inicio = true;
+    } else if (boton.equals("=")) {
+        if (!operador.equals("")) {
+            double segundoNumero = Double.parseDouble(pantalla.getText());
+            switch (operador) {
+                case "+":
+                    resultado += segundoNumero;
+                    break;
+                case "-":
+                    resultado -= segundoNumero;
+                    break;
+                case "*":
+                    resultado *= segundoNumero;
+                    break;
+                case "/":
+                    resultado /= segundoNumero;
+                    break;
+            }
+            pantalla.setText(String.valueOf(resultado));
+            operador = "";
+        }
+        inicio = true;
+    } else if (boton.equals(".")) {
+        if (!pantalla.getText().contains(".")) {
+            pantalla.setText(pantalla.getText() + ".");
+            inicio = false;
+        }
+    } else if (boton.equals("%")) {
+        double numero = Double.parseDouble(pantalla.getText());
+        resultado = numero / 100;
+        pantalla.setText(String.valueOf(resultado));
+    } else if (boton.equals("√")) {
+        double numero = Double.parseDouble(pantalla.getText());
+        resultado = Math.sqrt(numero);
+        pantalla.setText(String.valueOf(resultado));
+    } else if (boton.equals("x²")) {
+        double numero = Double.parseDouble(pantalla.getText());
+        resultado = Math.pow(numero, 2);
+        pantalla.setText(String.valueOf(resultado));
     }
 }
