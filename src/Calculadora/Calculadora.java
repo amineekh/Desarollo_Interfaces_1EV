@@ -150,15 +150,21 @@ public class Calculadora extends JFrame {
         add(panelPrincipal);
     }
 
+    // Método para realizar operaciones en la calculadora
     private void operar(String boton) {
+        // Se verifica si el botón es de reinicio
         if (boton.equals("C")) {
+            // Se limpia la pantalla y se reinician las variables
             pantalla.setText("");
             resultado = 0;
             operador = "";
             inicio = true;
             numeros.clear();
             operadores.clear();
-        } else if (boton.matches("[+*/-]")) {
+        }
+        // Se verifica si el botón es de alguna operación aritmética
+        else if (boton.matches("[+*/-]")) {
+            // Se guarda el operador en la pila de operadores y el número en la pila de números
             operadores.push(boton.charAt(0));
             if (!pantalla.getText().isEmpty()) {
                 numeros.push(Double.parseDouble(pantalla.getText()));
@@ -166,10 +172,12 @@ public class Calculadora extends JFrame {
             pantalla.setText("");
             inicio = true;
         }
+        // Se verifica si el botón es de igualdad para obtener el resultado
         else if (boton.equals("=")) {
             if (!pantalla.getText().isEmpty()) {
                 numeros.push(Double.parseDouble(pantalla.getText()));
             }
+            // Se realiza el cálculo de acuerdo con el operador almacenado
             while (!operadores.isEmpty()) {
                 char operadorActual = operadores.pop();
                 double num2 = numeros.pop();
@@ -190,35 +198,43 @@ public class Calculadora extends JFrame {
                 }
                 numeros.push(resultado);
             }
+            // Se muestra el resultado en la pantalla
             pantalla.setText(String.valueOf(numeros.peek()));
             resultado = numeros.pop();
             inicio = true;
-        } else if (boton.equals(".")) {
+        }
+        // Se verifica si el botón es para agregar un punto decimal
+        else if (boton.equals(".")) {
             if (!pantalla.getText().contains(".")) {
                 pantalla.setText(pantalla.getText() + ".");
                 inicio = false;
             }
-        } else if (boton.equals("%")) {
+        }
+        // Se verifica si el botón es para calcular un porcentaje
+        else if (boton.equals("%")) {
             double numero = Double.parseDouble(pantalla.getText());
             resultado = numero / 100;
             pantalla.setText(String.valueOf(resultado));
-        } else if (boton.equals("√")) {
+        }
+        // Se verifica si el botón es para calcular la raíz cuadrada
+        else if (boton.equals("√")) {
             double numero = Double.parseDouble(pantalla.getText());
             resultado = Math.sqrt(numero);
             pantalla.setText(String.valueOf(resultado));
-        } else if (boton.equals("x²")) {
+        }
+        // Se verifica si el botón es para elevar un número al cuadrado
+        else if (boton.equals("x²")) {
             double numero = Double.parseDouble(pantalla.getText());
             resultado = Math.pow(numero, 2);
             pantalla.setText(String.valueOf(resultado));
         }
     }
-
-
     public static void main(String[] args) {
 
         Calculadora calculadora= new Calculadora();
         // Hacer visible la ventana
         calculadora.setVisible(true);
+        calculadora.setResizable(false);
 
     }
 }

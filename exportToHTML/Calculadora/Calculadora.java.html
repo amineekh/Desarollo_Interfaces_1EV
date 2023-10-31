@@ -1,0 +1,261 @@
+<html>
+<head>
+<title>Calculadora.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6897bb;}
+.s4 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Calculadora.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">Calculadora</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">javax.swing.*</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.awt.*</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.awt.event.ActionEvent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.awt.event.ActionListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.HashMap</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.Map</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.Stack</span><span class="s0">;</span>
+
+<span class="s2">//calculadora funcional</span>
+<span class="s0">public class </span><span class="s1">Calculadora </span><span class="s0">extends </span><span class="s1">JFrame {</span>
+    <span class="s0">private </span><span class="s1">JTextField pantalla</span><span class="s0">;</span>
+    <span class="s0">private double </span><span class="s1">resultado = </span><span class="s3">0</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">String operador = </span><span class="s4">&quot;&quot;</span><span class="s0">;</span>
+    <span class="s0">private boolean </span><span class="s1">inicio = </span><span class="s0">true;</span>
+
+    <span class="s0">private </span><span class="s1">Stack&lt;Double&gt; numeros = </span><span class="s0">new </span><span class="s1">Stack&lt;&gt;()</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">Stack&lt;Character&gt; operadores = </span><span class="s0">new </span><span class="s1">Stack&lt;&gt;()</span><span class="s0">;</span>
+
+    <span class="s0">public </span><span class="s1">Calculadora() {</span>
+        <span class="s2">// Configura la ventana</span>
+        <span class="s1">setTitle(</span><span class="s4">&quot;Calculadora&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">setSize(</span><span class="s3">300</span><span class="s0">, </span><span class="s3">400</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)</span><span class="s0">;</span>
+        <span class="s1">setLocationRelativeTo(</span><span class="s0">null</span><span class="s1">)</span><span class="s0">; </span><span class="s2">// Centra la ventana en la pantalla</span>
+
+        <span class="s2">// Crea un panel para la pantalla en la parte superior</span>
+        <span class="s1">JPanel panelPantalla = </span><span class="s0">new </span><span class="s1">JPanel()</span><span class="s0">;</span>
+        <span class="s1">pantalla = </span><span class="s0">new </span><span class="s1">JTextField(</span><span class="s3">13</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">pantalla.setHorizontalAlignment(JTextField.RIGHT)</span><span class="s0">;</span>
+        <span class="s2">// Configura el tamaño del texto de los botones</span>
+        <span class="s1">pantalla.setFont(</span><span class="s0">new </span><span class="s1">Font(</span><span class="s4">&quot;Arial&quot;</span><span class="s0">, </span><span class="s1">Font.PLAIN</span><span class="s0">, </span><span class="s3">18</span><span class="s1">))</span><span class="s0">;</span>
+
+        <span class="s2">// Crea un panel principal con un BorderLayout</span>
+        <span class="s1">JPanel panelPrincipal = </span><span class="s0">new </span><span class="s1">JPanel(</span><span class="s0">new </span><span class="s1">BorderLayout())</span><span class="s0">;</span>
+
+        <span class="s2">// Configura el color de fondo en la parte superior</span>
+        <span class="s1">panelPantalla.setBackground(Color.black)</span><span class="s0">;</span>
+
+        <span class="s2">// Configura el margen superior del panel de texto</span>
+        <span class="s1">panelPantalla.setBorder(BorderFactory.createEmptyBorder(</span><span class="s3">20</span><span class="s0">, </span><span class="s3">0</span><span class="s0">, </span><span class="s3">10</span><span class="s0">, </span><span class="s3">0</span><span class="s1">))</span><span class="s0">;</span>
+
+        <span class="s2">// Configura el alto del JTextField (panel de pantalla) a un valor más grande</span>
+        <span class="s1">Dimension alto_panel_pantalla = </span><span class="s0">new </span><span class="s1">Dimension(pantalla.getPreferredSize().width</span><span class="s0">, </span><span class="s3">45</span><span class="s1">)</span><span class="s0">; </span><span class="s2">// Cambia 35 al alto que desees</span>
+        <span class="s1">pantalla.setPreferredSize(alto_panel_pantalla)</span><span class="s0">;</span>
+
+        <span class="s2">// Configura el color de fondo y el color de texto de la pantalla</span>
+        <span class="s1">pantalla.setBackground(Color.black)</span><span class="s0">;</span>
+        <span class="s1">pantalla.setForeground(Color.white)</span><span class="s0">;</span>
+
+        <span class="s1">panelPantalla.add(pantalla)</span><span class="s0">;</span>
+
+        <span class="s2">// Crea el panel de botones</span>
+        <span class="s1">JPanel panelBotones = </span><span class="s0">new </span><span class="s1">JPanel(</span><span class="s0">new </span><span class="s1">GridLayout(</span><span class="s3">5</span><span class="s0">, </span><span class="s3">4</span><span class="s0">, </span><span class="s3">5</span><span class="s0">, </span><span class="s3">5</span><span class="s1">))</span><span class="s0">; </span><span class="s2">// 5 filas para acomodar los botones especiales</span>
+
+        <span class="s2">// Configura el color de fondo del panel de botones</span>
+        <span class="s1">panelBotones.setBackground(Color.black)</span><span class="s0">;</span>
+
+        <span class="s2">// Agrega los botones a panelBotones</span>
+        <span class="s1">String[] botones = {</span>
+                <span class="s4">&quot;%&quot;</span><span class="s0">, </span><span class="s4">&quot;√&quot;</span><span class="s0">, </span><span class="s4">&quot;x²&quot;</span><span class="s0">, </span><span class="s4">&quot;C&quot;</span><span class="s0">,</span>
+                <span class="s4">&quot;7&quot;</span><span class="s0">, </span><span class="s4">&quot;8&quot;</span><span class="s0">, </span><span class="s4">&quot;9&quot;</span><span class="s0">, </span><span class="s4">&quot;/&quot;</span><span class="s0">,</span>
+                <span class="s4">&quot;4&quot;</span><span class="s0">, </span><span class="s4">&quot;5&quot;</span><span class="s0">, </span><span class="s4">&quot;6&quot;</span><span class="s0">, </span><span class="s4">&quot;*&quot;</span><span class="s0">,</span>
+                <span class="s4">&quot;1&quot;</span><span class="s0">, </span><span class="s4">&quot;2&quot;</span><span class="s0">, </span><span class="s4">&quot;3&quot;</span><span class="s0">, </span><span class="s4">&quot;-&quot;</span><span class="s0">,</span>
+                <span class="s4">&quot;.&quot;</span><span class="s0">, </span><span class="s4">&quot;0&quot;</span><span class="s0">, </span><span class="s4">&quot;=&quot;</span><span class="s0">, </span><span class="s4">&quot;+&quot;</span><span class="s0">,</span>
+        <span class="s1">}</span><span class="s0">;</span>
+
+        <span class="s2">// Crea un mapa para asociar botones con colores de fondo</span>
+        <span class="s1">Map&lt;String</span><span class="s0">, </span><span class="s1">Color&gt; botonesColores = </span><span class="s0">new </span><span class="s1">HashMap&lt;&gt;()</span><span class="s0">;</span>
+        <span class="s1">botonesColores.put(</span><span class="s4">&quot;%&quot;</span><span class="s0">, </span><span class="s1">Color.blue)</span><span class="s0">;</span>
+        <span class="s1">botonesColores.put(</span><span class="s4">&quot;√&quot;</span><span class="s0">, </span><span class="s1">Color.blue)</span><span class="s0">;</span>
+        <span class="s1">botonesColores.put(</span><span class="s4">&quot;x²&quot;</span><span class="s0">, </span><span class="s1">Color.blue)</span><span class="s0">;</span>
+        <span class="s1">botonesColores.put(</span><span class="s4">&quot;C&quot;</span><span class="s0">, </span><span class="s1">Color.blue)</span><span class="s0">;</span>
+        <span class="s1">botonesColores.put(</span><span class="s4">&quot;/&quot;</span><span class="s0">, </span><span class="s1">Color.blue)</span><span class="s0">;</span>
+        <span class="s1">botonesColores.put(</span><span class="s4">&quot;*&quot;</span><span class="s0">, </span><span class="s1">Color.blue)</span><span class="s0">;</span>
+        <span class="s1">botonesColores.put(</span><span class="s4">&quot;-&quot;</span><span class="s0">, </span><span class="s1">Color.blue)</span><span class="s0">;</span>
+        <span class="s1">botonesColores.put(</span><span class="s4">&quot;+&quot;</span><span class="s0">, </span><span class="s1">Color.blue)</span><span class="s0">;</span>
+
+        <span class="s2">// Crea un mapa para asociar botones con color de texto</span>
+        <span class="s1">Map&lt;String</span><span class="s0">, </span><span class="s1">Color&gt; botonesColoresTexto = </span><span class="s0">new </span><span class="s1">HashMap&lt;&gt;()</span><span class="s0">;</span>
+        <span class="s1">botonesColoresTexto.put(</span><span class="s4">&quot;%&quot;</span><span class="s0">, </span><span class="s1">Color.WHITE)</span><span class="s0">; </span><span class="s2">// Color de texto para &quot;%&quot;</span>
+        <span class="s1">botonesColoresTexto.put(</span><span class="s4">&quot;√&quot;</span><span class="s0">, </span><span class="s1">Color.WHITE)</span><span class="s0">; </span><span class="s2">// Color de texto para &quot;√&quot;</span>
+        <span class="s1">botonesColoresTexto.put(</span><span class="s4">&quot;x²&quot;</span><span class="s0">, </span><span class="s1">Color.WHITE)</span><span class="s0">; </span><span class="s2">// Color de texto para &quot;x²&quot;</span>
+        <span class="s1">botonesColoresTexto.put(</span><span class="s4">&quot;C&quot;</span><span class="s0">, </span><span class="s1">Color.WHITE)</span><span class="s0">; </span><span class="s2">// Color de texto para &quot;C&quot;</span>
+        <span class="s1">botonesColoresTexto.put(</span><span class="s4">&quot;/&quot;</span><span class="s0">, </span><span class="s1">Color.WHITE)</span><span class="s0">; </span><span class="s2">// Color de texto para &quot;/&quot;</span>
+        <span class="s1">botonesColoresTexto.put(</span><span class="s4">&quot;*&quot;</span><span class="s0">, </span><span class="s1">Color.WHITE)</span><span class="s0">; </span><span class="s2">// Color de texto para &quot;*&quot;</span>
+        <span class="s1">botonesColoresTexto.put(</span><span class="s4">&quot;-&quot;</span><span class="s0">, </span><span class="s1">Color.WHITE)</span><span class="s0">; </span><span class="s2">// Color de texto para &quot;-&quot;</span>
+        <span class="s1">botonesColoresTexto.put(</span><span class="s4">&quot;+&quot;</span><span class="s0">, </span><span class="s1">Color.WHITE)</span><span class="s0">; </span><span class="s2">// Color de texto para &quot;+&quot;</span>
+
+        <span class="s0">for </span><span class="s1">(String boton : botones) {</span>
+            <span class="s1">JButton btn = </span><span class="s0">new </span><span class="s1">JButton(boton)</span><span class="s0">;</span>
+
+            <span class="s2">// Configura el tamaño de los botones</span>
+            <span class="s1">btn.setPreferredSize(</span><span class="s0">new </span><span class="s1">Dimension(</span><span class="s3">20</span><span class="s0">, </span><span class="s3">20</span><span class="s1">))</span><span class="s0">;</span>
+
+            <span class="s2">// Configura el color de fondo y el color de texto de los botones</span>
+            <span class="s1">btn.setBackground(Color.black)</span><span class="s0">;</span>
+            <span class="s1">btn.setForeground(Color.green)</span><span class="s0">;</span>
+
+            <span class="s2">// Configura el tamaño real de los botones</span>
+            <span class="s1">btn.setSize(btn.getPreferredSize())</span><span class="s0">;</span>
+
+            <span class="s2">// Configura el tamaño del texto de los botones</span>
+            <span class="s1">btn.setFont(</span><span class="s0">new </span><span class="s1">Font(</span><span class="s4">&quot;Arial&quot;</span><span class="s0">, </span><span class="s1">Font.PLAIN</span><span class="s0">, </span><span class="s3">18</span><span class="s1">))</span><span class="s0">;</span>
+
+            <span class="s2">// Verifica si el botón está en el mapa de colores y establece el color de fondo correspondiente</span>
+            <span class="s0">if </span><span class="s1">(botonesColores.containsKey(boton)) {</span>
+                <span class="s1">btn.setBackground(botonesColores.get(boton))</span><span class="s0">;</span>
+            <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                <span class="s1">btn.setBackground(Color.BLACK)</span><span class="s0">; </span><span class="s2">// Color de fondo predeterminado para otros botones</span>
+            <span class="s1">}</span>
+            <span class="s2">// Configura el color de texto de los botones</span>
+            <span class="s0">if </span><span class="s1">(botonesColoresTexto.containsKey(boton)) {</span>
+                <span class="s1">btn.setForeground(botonesColoresTexto.get(boton))</span><span class="s0">;</span>
+            <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                <span class="s1">btn.setForeground(Color.GREEN)</span><span class="s0">; </span><span class="s2">// Color de texto predeterminado para otros botones</span>
+            <span class="s1">}</span>
+
+            <span class="s1">btn.addActionListener(</span><span class="s0">new </span><span class="s1">ActionListener() {</span>
+                <span class="s0">public void </span><span class="s1">actionPerformed(ActionEvent e) {</span>
+                    <span class="s1">String textoEnPantalla = pantalla.getText()</span><span class="s0">;</span>
+                    <span class="s1">String textoBoton = e.getActionCommand()</span><span class="s0">;</span>
+
+                    <span class="s0">if </span><span class="s1">(textoBoton.matches(</span><span class="s4">&quot;[0-9]&quot;</span><span class="s1">)) {</span>
+                        <span class="s0">if </span><span class="s1">(inicio) {</span>
+                            <span class="s1">textoEnPantalla = </span><span class="s4">&quot;&quot;</span><span class="s0">;</span>
+                            <span class="s1">inicio = </span><span class="s0">false;</span>
+                        <span class="s1">}</span>
+                        <span class="s1">pantalla.setText(textoEnPantalla + textoBoton)</span><span class="s0">;</span>
+                    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                        <span class="s1">operar(textoBoton)</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">}</span>
+            <span class="s1">})</span><span class="s0">;</span>
+
+            <span class="s1">panelBotones.add(btn)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+        <span class="s2">// Configura el margen de los botones</span>
+        <span class="s1">panelBotones.setBorder(BorderFactory.createEmptyBorder(</span><span class="s3">20</span><span class="s0">, </span><span class="s3">20</span><span class="s0">, </span><span class="s3">20</span><span class="s0">, </span><span class="s3">20</span><span class="s1">))</span><span class="s0">;</span>
+
+        <span class="s2">// Agrega los paneles al panel principal</span>
+        <span class="s1">panelPrincipal.add(panelPantalla</span><span class="s0">, </span><span class="s1">BorderLayout.NORTH)</span><span class="s0">;</span>
+        <span class="s1">panelPrincipal.add(panelBotones</span><span class="s0">, </span><span class="s1">BorderLayout.CENTER)</span><span class="s0">;</span>
+
+
+
+        <span class="s2">// Agrega el panel principal a la ventana</span>
+        <span class="s1">add(panelPrincipal)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s2">// Método para realizar operaciones en la calculadora</span>
+    <span class="s0">private void </span><span class="s1">operar(String boton) {</span>
+        <span class="s2">// Se verifica si el botón es de reinicio</span>
+        <span class="s0">if </span><span class="s1">(boton.equals(</span><span class="s4">&quot;C&quot;</span><span class="s1">)) {</span>
+            <span class="s2">// Se limpia la pantalla y se reinician las variables</span>
+            <span class="s1">pantalla.setText(</span><span class="s4">&quot;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">resultado = </span><span class="s3">0</span><span class="s0">;</span>
+            <span class="s1">operador = </span><span class="s4">&quot;&quot;</span><span class="s0">;</span>
+            <span class="s1">inicio = </span><span class="s0">true;</span>
+            <span class="s1">numeros.clear()</span><span class="s0">;</span>
+            <span class="s1">operadores.clear()</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s2">// Se verifica si el botón es de alguna operación aritmética</span>
+        <span class="s0">else if </span><span class="s1">(boton.matches(</span><span class="s4">&quot;[+*/-]&quot;</span><span class="s1">)) {</span>
+            <span class="s2">// Se guarda el operador en la pila de operadores y el número en la pila de números</span>
+            <span class="s1">operadores.push(boton.charAt(</span><span class="s3">0</span><span class="s1">))</span><span class="s0">;</span>
+            <span class="s0">if </span><span class="s1">(!pantalla.getText().isEmpty()) {</span>
+                <span class="s1">numeros.push(Double.parseDouble(pantalla.getText()))</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s1">pantalla.setText(</span><span class="s4">&quot;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">inicio = </span><span class="s0">true;</span>
+        <span class="s1">}</span>
+        <span class="s2">// Se verifica si el botón es de igualdad para obtener el resultado</span>
+        <span class="s0">else if </span><span class="s1">(boton.equals(</span><span class="s4">&quot;=&quot;</span><span class="s1">)) {</span>
+            <span class="s0">if </span><span class="s1">(!pantalla.getText().isEmpty()) {</span>
+                <span class="s1">numeros.push(Double.parseDouble(pantalla.getText()))</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s2">// Se realiza el cálculo de acuerdo con el operador almacenado</span>
+            <span class="s0">while </span><span class="s1">(!operadores.isEmpty()) {</span>
+                <span class="s0">char </span><span class="s1">operadorActual = operadores.pop()</span><span class="s0">;</span>
+                <span class="s0">double </span><span class="s1">num2 = numeros.pop()</span><span class="s0">;</span>
+                <span class="s0">double </span><span class="s1">num1 = numeros.pop()</span><span class="s0">;</span>
+                <span class="s0">switch </span><span class="s1">(operadorActual) {</span>
+                    <span class="s0">case </span><span class="s4">'+'</span><span class="s1">:</span>
+                        <span class="s1">resultado = num1 + num2</span><span class="s0">;</span>
+                        <span class="s0">break;</span>
+                    <span class="s0">case </span><span class="s4">'-'</span><span class="s1">:</span>
+                        <span class="s1">resultado = num1 - num2</span><span class="s0">;</span>
+                        <span class="s0">break;</span>
+                    <span class="s0">case </span><span class="s4">'*'</span><span class="s1">:</span>
+                        <span class="s1">resultado = num1 * num2</span><span class="s0">;</span>
+                        <span class="s0">break;</span>
+                    <span class="s0">case </span><span class="s4">'/'</span><span class="s1">:</span>
+                        <span class="s1">resultado = num1 / num2</span><span class="s0">;</span>
+                        <span class="s0">break;</span>
+                <span class="s1">}</span>
+                <span class="s1">numeros.push(resultado)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s2">// Se muestra el resultado en la pantalla</span>
+            <span class="s1">pantalla.setText(String.valueOf(numeros.peek()))</span><span class="s0">;</span>
+            <span class="s1">resultado = numeros.pop()</span><span class="s0">;</span>
+            <span class="s1">inicio = </span><span class="s0">true;</span>
+        <span class="s1">}</span>
+        <span class="s2">// Se verifica si el botón es para agregar un punto decimal</span>
+        <span class="s0">else if </span><span class="s1">(boton.equals(</span><span class="s4">&quot;.&quot;</span><span class="s1">)) {</span>
+            <span class="s0">if </span><span class="s1">(!pantalla.getText().contains(</span><span class="s4">&quot;.&quot;</span><span class="s1">)) {</span>
+                <span class="s1">pantalla.setText(pantalla.getText() + </span><span class="s4">&quot;.&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">inicio = </span><span class="s0">false;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+        <span class="s2">// Se verifica si el botón es para calcular un porcentaje</span>
+        <span class="s0">else if </span><span class="s1">(boton.equals(</span><span class="s4">&quot;%&quot;</span><span class="s1">)) {</span>
+            <span class="s0">double </span><span class="s1">numero = Double.parseDouble(pantalla.getText())</span><span class="s0">;</span>
+            <span class="s1">resultado = numero / </span><span class="s3">100</span><span class="s0">;</span>
+            <span class="s1">pantalla.setText(String.valueOf(resultado))</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s2">// Se verifica si el botón es para calcular la raíz cuadrada</span>
+        <span class="s0">else if </span><span class="s1">(boton.equals(</span><span class="s4">&quot;√&quot;</span><span class="s1">)) {</span>
+            <span class="s0">double </span><span class="s1">numero = Double.parseDouble(pantalla.getText())</span><span class="s0">;</span>
+            <span class="s1">resultado = Math.sqrt(numero)</span><span class="s0">;</span>
+            <span class="s1">pantalla.setText(String.valueOf(resultado))</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s2">// Se verifica si el botón es para elevar un número al cuadrado</span>
+        <span class="s0">else if </span><span class="s1">(boton.equals(</span><span class="s4">&quot;x²&quot;</span><span class="s1">)) {</span>
+            <span class="s0">double </span><span class="s1">numero = Double.parseDouble(pantalla.getText())</span><span class="s0">;</span>
+            <span class="s1">resultado = Math.pow(numero</span><span class="s0">, </span><span class="s3">2</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">pantalla.setText(String.valueOf(resultado))</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s0">public static void </span><span class="s1">main(String[] args) {</span>
+
+        <span class="s1">Calculadora calculadora= </span><span class="s0">new </span><span class="s1">Calculadora()</span><span class="s0">;</span>
+        <span class="s2">// Hacer visible la ventana</span>
+        <span class="s1">calculadora.setVisible(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">calculadora.setResizable(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>
