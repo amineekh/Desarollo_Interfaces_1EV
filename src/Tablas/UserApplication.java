@@ -1,6 +1,7 @@
 package Tablas;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,10 +18,10 @@ public class UserApplication extends JFrame {
 
     // Constructor de la clase UserApplication
     public UserApplication() {
-        // Configuración inicial de la ventana
-        setTitle("User Application"); // Establece el título de la ventana
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Configura la operación al cerrar la ventana
-        setLayout(new BorderLayout());// Establece el diseño de la ventana
+
+        // Añadir márgenes a la ventana
+        int marginSize = 20; // Tamaño del margen en píxeles
+        this.getRootPane().setBorder(BorderFactory.createEmptyBorder(marginSize, marginSize, marginSize, marginSize));
 
         // Creación del panel para introducir datos de usuario
         JPanel inputPanel = new JPanel(new GridLayout(6, 2));
@@ -66,11 +67,27 @@ public class UserApplication extends JFrame {
         model.addColumn("Apellidos");
         model.addColumn("DNI");
         model.addColumn("Email");
+        model.addColumn("Contraseña");
 
         // Inicialización de la tabla con el modelo de datos
         table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER); // Agregar la tabla en el centro de la ventana
+
+        // Definir un DefaultTableCellRenderer para ocultar la contraseña en la tabla
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+            @Override
+            protected void setValue(Object value) {
+                if (value instanceof String) {
+                    setText("\u2022\u2022\u2022\u2022\u2022\u2022"); // Mostrar "••••••" en lugar del texto real
+                } else {
+                    super.setValue(value);
+                }
+            }
+        };
+
+        // Aplicar el renderer a la columna de contraseñas (índice 5)
+        table.getColumnModel().getColumn(5).setCellRenderer(renderer);
 
         // Creación del panel para los botones y adición de los botones al panel
         JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -99,13 +116,14 @@ public class UserApplication extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!nameField.getText().isEmpty() && !lastNameField.getText().isEmpty() && !emailField.getText().isEmpty()) {
+                if (!nameField.getText().isEmpty() && !lastNameField.getText().isEmpty() && !emailField.getText().isEmpty() && !passwordField.getText().isEmpty()) {
                     String[] rowData = {
                             idField.getText(),
                             nameField.getText(),
                             lastNameField.getText(),
                             dniField.getText(),
-                            emailField.getText()
+                            emailField.getText(),
+                            passwordField.getText()
                     };
                     model.addRow(rowData);
                     idCounter++;
@@ -121,11 +139,13 @@ public class UserApplication extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = table.getSelectedRow();
-                if (selectedRow != -1 && !nameField.getText().isEmpty() && !lastNameField.getText().isEmpty() && !emailField.getText().isEmpty()) {
+                if (selectedRow != -1 && !nameField.getText().isEmpty() && !lastNameField.getText().isEmpty() && !emailField.getText().isEmpty() && !passwordField.getText().isEmpty()) {
                     table.setValueAt(nameField.getText(), selectedRow, 1);
                     table.setValueAt(lastNameField.getText(), selectedRow, 2);
                     table.setValueAt(dniField.getText(), selectedRow, 3);
                     table.setValueAt(emailField.getText(), selectedRow, 4);
+                    table.setValueAt(passwordField.getText(), selectedRow, 5);
+
                 } else {
                     JOptionPane.showMessageDialog(UserApplication.this, "Por favor, seleccione una fila y rellene los campos obligatorios.");
                 }
@@ -164,7 +184,14 @@ public class UserApplication extends JFrame {
 
     public static void main(String[] args) {
         UserApplication UserApplication= new UserApplication();
+        // Configuración inicial de la ventana
+        UserApplication.setTitle("User Application"); // Establece el título de la ventana
+        UserApplication.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Configura la operación al cerrar la ventana
+
+
+
         // Hacer visible la ventana
         UserApplication.setVisible(true);
+
     }
 }
