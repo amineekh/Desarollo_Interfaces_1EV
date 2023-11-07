@@ -10,8 +10,8 @@ import java.awt.event.ActionListener;
 public class UserApplication extends JFrame {
 
     // Declaración de variables para los componentes de la interfaz
-    private JTextField nameField, lastNameField, dniField, emailField, passwordField, idField;
-    private JButton newButton, deleteButton, modifyButton, addButton;
+    private JTextField nombre_Field, apellido_Field, DNI_Field, email_Field, pass_Field, idField;
+    private JButton nuevo_Button, borrar_Button, modificar_Button, añadir_Button;
     private JTable table;
     private DefaultTableModel model;
     private int idCounter = 1;
@@ -30,25 +30,26 @@ public class UserApplication extends JFrame {
         idField = new JTextField();
         idField.setEditable(false); // Hacemos el campo de ID no editable al inicio
         idField.setText(String.valueOf(idCounter)); // Mostramos el ID actual
-        nameField = new JTextField();
-        lastNameField = new JTextField();
-        dniField = new JTextField();
-        emailField = new JTextField();
-        passwordField = new JPasswordField();
+
+        nombre_Field = new JTextField();
+        apellido_Field = new JTextField();
+        DNI_Field = new JTextField();
+        email_Field = new JTextField();
+        pass_Field = new JPasswordField();
 
         // Agregar etiquetas y campos de texto al panel
         inputPanel.add(new JLabel("ID"));
         inputPanel.add(idField);
         inputPanel.add(new JLabel("Nombre"));
-        inputPanel.add(nameField);
+        inputPanel.add(nombre_Field);
         inputPanel.add(new JLabel("Apellidos"));
-        inputPanel.add(lastNameField);
+        inputPanel.add(apellido_Field);
         inputPanel.add(new JLabel("DNI (opcional)"));
-        inputPanel.add(dniField);
+        inputPanel.add(DNI_Field);
         inputPanel.add(new JLabel("Email"));
-        inputPanel.add(emailField);
+        inputPanel.add(email_Field);
         inputPanel.add(new JLabel("Contraseña (opcional)"));
-        inputPanel.add(passwordField);
+        inputPanel.add(pass_Field);
 
         // Agregar el panel de entrada en la parte superior de la ventana
         add(inputPanel, BorderLayout.NORTH);
@@ -91,21 +92,21 @@ public class UserApplication extends JFrame {
 
         // Creación del panel para los botones y adición de los botones al panel
         JPanel buttonPanel = new JPanel(new FlowLayout());
-        newButton = new JButton("Nuevo");
-        deleteButton = new JButton("Eliminar");
-        modifyButton = new JButton("Modificar");
-        addButton = new JButton("Añadir");
+        nuevo_Button = new JButton("Nuevo");
+        borrar_Button = new JButton("Eliminar");
+        modificar_Button = new JButton("Modificar");
+        añadir_Button = new JButton("Añadir");
 
-        buttonPanel.add(newButton);
-        buttonPanel.add(deleteButton);
-        buttonPanel.add(modifyButton);
-        buttonPanel.add(addButton);
+        buttonPanel.add(nuevo_Button);
+        buttonPanel.add(borrar_Button);
+        buttonPanel.add(modificar_Button);
+        buttonPanel.add(añadir_Button);
 
         // Agregar el panel de botones en la parte inferior de la ventana
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Acción para el botón Nuevo
-        newButton.addActionListener(new ActionListener() {
+        nuevo_Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 clearFields(); // Limpia los campos de texto
@@ -113,56 +114,64 @@ public class UserApplication extends JFrame {
         });
 
         // Acción para el botón Añadir
-        addButton.addActionListener(new ActionListener() {
+        añadir_Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!nameField.getText().isEmpty() && !lastNameField.getText().isEmpty() && !emailField.getText().isEmpty() && !passwordField.getText().isEmpty()) {
+                // Verifica si los campos obligatorios están rellenos antes de agregar una nueva fila a la tabla
+                if (!nombre_Field.getText().isEmpty() && !apellido_Field.getText().isEmpty() && !email_Field.getText().isEmpty() && !pass_Field.getText().isEmpty()) {
                     String[] rowData = {
                             idField.getText(),
-                            nameField.getText(),
-                            lastNameField.getText(),
-                            dniField.getText(),
-                            emailField.getText(),
-                            passwordField.getText()
+                            nombre_Field.getText(),
+                            apellido_Field.getText(),
+                            DNI_Field.getText(),
+                            email_Field.getText(),
+                            pass_Field.getText()
                     };
-                    model.addRow(rowData);
-                    idCounter++;
-                    idField.setText(String.valueOf(idCounter));
+                    model.addRow(rowData); // Añade una nueva fila con los datos introducidos en los campos
+                    idCounter++; // Incrementa el contador de ID
+                    idField.setText(String.valueOf(idCounter)); // Actualiza el campo de ID
                 } else {
+                    // Muestra un mensaje de advertencia si no se han rellenado los campos obligatorios
                     JOptionPane.showMessageDialog(UserApplication.this, "Por favor, rellene los campos obligatorios.");
                 }
             }
         });
 
         // Acción para el botón Modificar
-        modifyButton.addActionListener(new ActionListener() {
+        modificar_Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = table.getSelectedRow();
-                if (selectedRow != -1 && !nameField.getText().isEmpty() && !lastNameField.getText().isEmpty() && !emailField.getText().isEmpty() && !passwordField.getText().isEmpty()) {
-                    table.setValueAt(nameField.getText(), selectedRow, 1);
-                    table.setValueAt(lastNameField.getText(), selectedRow, 2);
-                    table.setValueAt(dniField.getText(), selectedRow, 3);
-                    table.setValueAt(emailField.getText(), selectedRow, 4);
-                    table.setValueAt(passwordField.getText(), selectedRow, 5);
+                // Verifica si se ha seleccionado una fila y si los campos obligatorios están rellenos antes de realizar la modificación
+                if (selectedRow != -1 && !nombre_Field.getText().isEmpty() && !apellido_Field.getText().isEmpty() && !email_Field.getText().isEmpty() && !pass_Field.getText().isEmpty()) {
+                    // Actualiza los valores de la fila seleccionada con los valores de los campos de texto
+                    table.setValueAt(nombre_Field.getText(), selectedRow, 1);
+                    table.setValueAt(apellido_Field.getText(), selectedRow, 2);
+                    table.setValueAt(DNI_Field.getText(), selectedRow, 3);
+                    table.setValueAt(email_Field.getText(), selectedRow, 4);
+                    table.setValueAt(pass_Field.getText(), selectedRow, 5);
 
                 } else {
+                    // Muestra un mensaje de advertencia si no se ha seleccionado una fila o si los campos obligatorios no están rellenos
                     JOptionPane.showMessageDialog(UserApplication.this, "Por favor, seleccione una fila y rellene los campos obligatorios.");
                 }
             }
         });
 
         // Acción para el botón Eliminar
-        deleteButton.addActionListener(new ActionListener() {
+        borrar_Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = table.getSelectedRow();
+                // Verifica si se ha seleccionado una fila antes de eliminarla
                 if (selectedRow != -1) {
+                    // Muestra una confirmación antes de eliminar la fila seleccionada
                     int confirm = JOptionPane.showConfirmDialog(UserApplication.this, "¿Está seguro de que desea eliminar este usuario?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
-                        model.removeRow(selectedRow);
+                        model.removeRow(selectedRow); // Elimina la fila seleccionada del modelo de la tabla
                     }
                 } else {
+                    // Muestra un mensaje de advertencia si no se ha seleccionado ninguna fila para eliminar
                     JOptionPane.showMessageDialog(UserApplication.this, "Por favor, seleccione una fila para eliminar.");
                 }
             }
@@ -174,11 +183,11 @@ public class UserApplication extends JFrame {
 
     // Método para limpiar los campos de texto del formulario
     private void clearFields() {
-        nameField.setText("");
-        lastNameField.setText("");
-        dniField.setText("");
-        emailField.setText("");
-        passwordField.setText("");
+        nombre_Field.setText("");
+        apellido_Field.setText("");
+        DNI_Field.setText("");
+        email_Field.setText("");
+        pass_Field.setText("");
     }
 
 
@@ -187,8 +196,6 @@ public class UserApplication extends JFrame {
         // Configuración inicial de la ventana
         UserApplication.setTitle("User Application"); // Establece el título de la ventana
         UserApplication.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Configura la operación al cerrar la ventana
-
-
 
         // Hacer visible la ventana
         UserApplication.setVisible(true);
