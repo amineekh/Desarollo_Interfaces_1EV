@@ -16,11 +16,13 @@ public class InterfazCompleta extends JFrame {
         super("Ejemplo de Interfaz Completa");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
         // Crear un JPasswordField para contraseñas
-        passwordField = new JPasswordField(20);
+        passwordField = new JPasswordField();
+
 
         // Crear un JTextField para ingresar nombres
-        nombreTextField = new JTextField(20);
+        nombreTextField = new JTextField();
 
         // Crear botón Agregar
         JButton agregarButton = new JButton("Agregar");
@@ -66,6 +68,7 @@ public class InterfazCompleta extends JFrame {
 
         // Crear un panel para organizar el botón Agregar y el campo de texto horizontalmente
         JPanel agregarPanel = new JPanel();
+
         agregarPanel.setLayout(new BoxLayout(agregarPanel, BoxLayout.X_AXIS));
         agregarPanel.add(nombreTextField);
         agregarPanel.add(agregarButton);
@@ -104,12 +107,14 @@ public class InterfazCompleta extends JFrame {
         getContentPane().add(mainPanel);
 
         setLocationRelativeTo(null); // Centrar la ventana en la pantalla
+
+        pack();
     }
 
 
     public static void main(String[] args) {
         InterfazCompleta interfaz = new InterfazCompleta();
-        interfaz.setBounds(100, 100, 400, 300);
+
         interfaz.setVisible(true);
         interfaz.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
