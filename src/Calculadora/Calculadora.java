@@ -4,12 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener; //para poner solo numeros en la pantalla de la calculadora Y NO LETRAS
 
 //calculadora funcional
-public class Calculadora extends JFrame {
+public class Calculadora extends JFrame implements KeyListener{
     private JTextField pantalla;
     private double resultado = 0;
     private String operador = "";
@@ -29,6 +32,7 @@ public class Calculadora extends JFrame {
         JPanel panelPantalla = new JPanel();
         pantalla = new JTextField(13);
         pantalla.setHorizontalAlignment(JTextField.RIGHT);
+        pantalla.addKeyListener( this); //para poner solo numeros en la pantalla de la calculadora
         // Configura el tamaño del texto de los botones
         pantalla.setFont(new Font("Arial", Font.PLAIN, 18));
 
@@ -229,12 +233,31 @@ public class Calculadora extends JFrame {
             pantalla.setText(String.valueOf(resultado));
         }
     }
+
     public static void main(String[] args) {
 
         Calculadora calculadora= new Calculadora();
         // Hacer visible la ventana
         calculadora.setVisible(true);
         calculadora.setResizable(false);
+
+    }
+    //para poner solo numeros en la pantalla de la calculadora Y NO LETRAS
+    @Override
+    public void keyTyped(KeyEvent e) {
+        char c = e.getKeyChar();
+        if (Character.isLetter(c)){
+            e.consume();
+        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
 
     }
 }
