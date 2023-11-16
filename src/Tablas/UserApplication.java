@@ -193,7 +193,7 @@ public class UserApplication extends JFrame {
         pass_Field.setText("");
     }
 
-    public static   Connection conn  = null;
+
     public static void main(String[] args) throws SQLException {
 
         UserApplication UserApplication= new UserApplication();
@@ -205,14 +205,8 @@ public class UserApplication extends JFrame {
         UserApplication.setVisible(true);
 
 
-        conectar_bd();
+
     }
 
-    private  static  void conectar_bd() throws SQLException{
-        String url =  "jdbc:mysql://localhost:3307/mydb";
-        String user = "root";
-        String passwd = "admin";
-        conn = DriverManager.getConnection(url, user, passwd);
-        System.out.println("consexion establecida");
-    }
+
 }
