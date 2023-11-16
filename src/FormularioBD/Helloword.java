@@ -1,10 +1,16 @@
 package FormularioBD;
 
+import Tablas.UserApplication;
+import com.mysql.cj.xdevapi.Table;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -49,6 +55,12 @@ public class Helloword extends JFrame {
 
         // Configurar la interfaz de usuario
         configuracion_UI();
+
+        // ponemos el metodo nuevo
+        // para que se actualize el id nada mas que se ejecute el programa
+        //asi nos aseguramos que nos pondra el id siguiente, si la tabla ya tiene datos intertados
+         Nuevo();
+
         añadir_Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,10 +69,29 @@ public class Helloword extends JFrame {
                 Nuevo();
             }
         });
-        nuevo_Button.addActionListener(new ActionListener() {
+        table.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                Nuevo();
+            public void mouseClicked(MouseEvent e) {
+                int fila = table.getSelectedRow();
+                if (fila == -1){
+                    JOptionPane.showMessageDialog(null, "No se seleccionó fila");
+                }
+                else {
+                    idc = Integer.parseInt((String) table.getValueAt(fila,0).toString());
+                    String nombre = (String) table.getValueAt(fila,1);
+                    String apellido = (String) table.getValueAt(fila,2);
+                    String dni = (String) table.getValueAt(fila,3);
+                    String email = (String) table.getValueAt(fila,4);
+                    String contrasena = (String) table.getValueAt(fila,5);
+
+                    idField.setText(""+idc);
+                    nombre_Field.setText(nombre);
+                    apellido_Field.setText(apellido);
+                    DNI_Field.setText(dni);
+                    email_Field.setText(email);
+                    pass_Field.setText(contrasena);
+
+                }
             }
         });
         modificar_Button.addActionListener(new ActionListener() {
@@ -71,10 +102,69 @@ public class Helloword extends JFrame {
                 Nuevo();
             }
         });
+
+        borrar_Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eliminar();
+                consultar();
+
+            }
+        });
+        nuevo_Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Nuevo();
+            }
+        });
+    }
+    private void Nuevo() {
+        idField.setText(String.valueOf(maximo_id()+1));
+        nombre_Field.setText("");
+        apellido_Field.setText("");
+        DNI_Field.setText("");
+        email_Field.setText("");
+        pass_Field.setText("");
+    }
+    private int maximo_id() {
+        int numero = 0;
+        try {
+            PreparedStatement ps = con1.conn.prepareStatement("select max(id) from users ");
+            rs= ps.executeQuery();
+            while (rs.next()) {
+                numero = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return numero;
+    }
+
+    private void eliminar() {
+        int fila = table.getSelectedRow();
+
+        try{
+            if (fila < 0) {
+                // Muestra una confirmación antes de eliminar la fila seleccionada
+                JOptionPane.showMessageDialog(null, "No has selecionado ningun usuario para eliminar");
+                limpiartabla();
+
+            } else {
+                String sql ="delete from users where id ="+idc;
+                conet = con1.getConnection();
+                st = conet.createStatement();
+                st.executeUpdate(sql);
+                JOptionPane.showMessageDialog(null, "Datos del usuario eliminado");
+                limpiartabla();
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
     }
 
     private void Modificar() {
-        String id = idField.getText().trim();
+        String id =  idField.getText().trim();
         String nombre = nombre_Field.getText().trim();
         String apellidos = apellido_Field.getText().trim();
         String dni = DNI_Field.getText().trim();
@@ -83,10 +173,11 @@ public class Helloword extends JFrame {
 
         try {
             if (nombre.equals("") || apellidos.equals("") || email.equals("")){
-                JOptionPane.showMessageDialog(null, "Debes rellenar nombre, apellido y email");
+                JOptionPane.showMessageDialog(null, "Por favor, Debes rellenar los siguientes campos: nombre, apellido y email");
                 limpiartabla();
             }
             else {
+                // sentencia sql para actualizar los datos de una fila de la tabla
                 String sql = "Update users set id ='"+idc+"', username='"+nombre+"', surname='"+apellidos+"', dni='"+dni+"', email='"+email+"', password= '"+contrasena+"' where id="+idc;
                 conet = con1.getConnection();
                 st = conet.createStatement();
@@ -99,20 +190,12 @@ public class Helloword extends JFrame {
                 limpiartabla();
             }
 
-        }catch (Exception e){
+        } catch (Exception e){
             System.out.println(e);
         }
-
     }
 
-    private void Nuevo() {
-        idField.setText("");
-        nombre_Field.setText("");
-        apellido_Field.setText("");
-        DNI_Field.setText("");
-        email_Field.setText("");
-        pass_Field.setText("");
-    }
+
 
     private void Agregar() {
         String id = idField.getText().trim();
@@ -124,11 +207,11 @@ public class Helloword extends JFrame {
 
         try {
             if (nombre.equals("") || apellidos.equals("") || email.equals("")){
-                JOptionPane.showMessageDialog(null, "Debes rellenar nombre, apellido y email");
+                JOptionPane.showMessageDialog(null, "Por favor, Debes rellenar nombre, apellido y email");
                 limpiartabla();
             }
             else {
-
+                // sentencia sql para insertar los datos  en la tabla
                 String sql = "insert into users(id, username, surname, dni, email, password) values ('"+id+"', '"+nombre+"', '"+apellidos+"', '"+dni+"', '"+email+"', '"+contrasena+"')";
                 conet = con1.getConnection();
                 st = conet.createStatement();
@@ -184,7 +267,7 @@ public class Helloword extends JFrame {
 
     private void createTable() {
 
-       // idField.setEditable(false); // Hacemos el campo de ID no editable al inicio
+        idField.setEditable(false); // Hacemos el campo de ID no editable al inicio
         idField.setText(String.valueOf(idCounter)); // Mostramos el ID actual
 
         // Creación del modelo de tabla y definición de la no edición de la columna ID
@@ -223,7 +306,7 @@ public class Helloword extends JFrame {
 
     private void configuracion_UI() {
         // Configurar la ventana
-        setTitle("Hello World");
+        setTitle("Folrmulario");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(mainpanel); // Establecer el panel principal
 
