@@ -1,60 +1,47 @@
-package Tablas;
-
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 
-import java.sql.SQLException;
+public class Helloword extends JFrame {
+    private JPanel mainpanel;
+    private JTextField idField;
+    private JTextField nombre_Field;
+    private JTextField apellido_Field;
+    private JTextField DNI_Field;
 
-public class UserApplication extends JFrame {
+    private JTextField email_Field;
 
-    // Declaración de variables para los componentes de la interfaz
-    private JTextField nombre_Field, apellido_Field, DNI_Field, email_Field, pass_Field, idField;
-    private JButton nuevo_Button, borrar_Button, modificar_Button, añadir_Button;
+    private JPasswordField pass_Field;
+
+
+    private JButton añadir_Button;
+    private JButton nuevo_Button;
+    private JButton borrar_Button;
+    private JButton modificar_Button;
     private JTable table;
+
     private DefaultTableModel model;
-    private int idCounter = 1;
 
-    // Constructor de la clase UserApplication
-    public UserApplication() {
+    private int idCounter = 1; // Establecer el valor inicial del contador de ID a 1
+    private JPanel Panel2;
 
-        // Añadir márgenes a la ventana
-        int marginSize = 20; // Tamaño del margen en píxeles
-        this.getRootPane().setBorder(BorderFactory.createEmptyBorder(marginSize, marginSize, marginSize, marginSize));
 
-        // Creación del panel para introducir datos de usuario
-        JPanel inputPanel = new JPanel(new GridLayout(6, 2));
+    public Helloword() {
+        // Inicializar el modelo de la tabla
+        model = new DefaultTableModel();
+        //metodo para la creacion de la tabla
+        createTable();
 
-        // Inicialización de los campos de texto y del campo de ID
-        idField = new JTextField();
+        // Configurar la interfaz de usuario
+        configuracion_UI();
+    }
+
+    private void createTable() {
+
         idField.setEditable(false); // Hacemos el campo de ID no editable al inicio
         idField.setText(String.valueOf(idCounter)); // Mostramos el ID actual
-
-        nombre_Field = new JTextField();
-        apellido_Field = new JTextField();
-        DNI_Field = new JTextField();
-        email_Field = new JTextField();
-        pass_Field = new JPasswordField();
-
-        // Agregar etiquetas y campos de texto al panel
-        inputPanel.add(new JLabel("ID"));
-        inputPanel.add(idField);
-        inputPanel.add(new JLabel("Nombre"));
-        inputPanel.add(nombre_Field);
-        inputPanel.add(new JLabel("Apellidos"));
-        inputPanel.add(apellido_Field);
-        inputPanel.add(new JLabel("DNI (opcional)"));
-        inputPanel.add(DNI_Field);
-        inputPanel.add(new JLabel("Email"));
-        inputPanel.add(email_Field);
-        inputPanel.add(new JLabel("Contraseña (opcional)"));
-        inputPanel.add(pass_Field);
-
-        // Agregar el panel de entrada en la parte superior de la ventana
-        add(inputPanel, BorderLayout.NORTH);
 
         // Creación del modelo de tabla y definición de la no edición de la columna ID
         model = new DefaultTableModel() {
@@ -64,7 +51,7 @@ public class UserApplication extends JFrame {
                 return column != 0; // Hacemos que la columna ID sea no editable
             }
         };
-        // Agregar columnas al modelo de la tabla
+        // Agregar columnas al modelo de la tabla si es necesario
         model.addColumn("ID");
         model.addColumn("Nombre");
         model.addColumn("Apellidos");
@@ -72,10 +59,8 @@ public class UserApplication extends JFrame {
         model.addColumn("Email");
         model.addColumn("Contraseña");
 
-        // Inicialización de la tabla con el modelo de datos
-        table = new JTable(model);
-        JScrollPane scrollPane = new JScrollPane(table);
-        add(scrollPane, BorderLayout.CENTER); // Agregar la tabla en el centro de la ventana
+        // Asignar el modelo a la tabla
+        table.setModel(model);
 
         // Definir un DefaultTableCellRenderer para ocultar la contraseña en la tabla
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
@@ -88,29 +73,22 @@ public class UserApplication extends JFrame {
                 }
             }
         };
-
         // Aplicar el renderer a la columna de contraseñas (índice 5)
         table.getColumnModel().getColumn(5).setCellRenderer(renderer);
+    }
 
-        // Creación del panel para los botones y adición de los botones al panel
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        nuevo_Button = new JButton("Nuevo");
-        borrar_Button = new JButton("Eliminar");
-        modificar_Button = new JButton("Modificar");
-        añadir_Button = new JButton("Añadir");
+    private void configuracion_UI() {
+        // Configurar la ventana
+        setTitle("Hello World");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setContentPane(mainpanel); // Establecer el panel principal
 
-        buttonPanel.add(nuevo_Button);
-        buttonPanel.add(borrar_Button);
-        buttonPanel.add(modificar_Button);
-        buttonPanel.add(añadir_Button);
-
-        // Agregar el panel de botones en la parte inferior de la ventana
-        add(buttonPanel, BorderLayout.SOUTH);
-
+        //CONFIGURACION DE LOS BOTONES
         // Acción para el botón Nuevo
         nuevo_Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 clearFields(); // Limpia los campos de texto
             }
         });
@@ -134,7 +112,7 @@ public class UserApplication extends JFrame {
                     idField.setText(String.valueOf(idCounter)); // Actualiza el campo de ID
                 } else {
                     // Muestra un mensaje de advertencia si no se han rellenado los campos obligatorios
-                    JOptionPane.showMessageDialog(UserApplication.this, "Por favor, rellene los campos obligatorios.");
+                    JOptionPane.showMessageDialog(Helloword.this, "Por favor, rellene los campos obligatorios.");
                 }
             }
         });
@@ -155,7 +133,7 @@ public class UserApplication extends JFrame {
 
                 } else {
                     // Muestra un mensaje de advertencia si no se ha seleccionado una fila o si los campos obligatorios no están rellenos
-                    JOptionPane.showMessageDialog(UserApplication.this, "Por favor, seleccione una fila y rellene los campos obligatorios.");
+                    JOptionPane.showMessageDialog(Helloword.this, "Por favor, seleccione una fila y rellene los campos obligatorios.");
                 }
             }
         });
@@ -168,16 +146,19 @@ public class UserApplication extends JFrame {
                 // Verifica si se ha seleccionado una fila antes de eliminarla
                 if (selectedRow != -1) {
                     // Muestra una confirmación antes de eliminar la fila seleccionada
-                    int confirm = JOptionPane.showConfirmDialog(UserApplication.this, "¿Está seguro de que desea eliminar este usuario?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+                    int confirm = JOptionPane.showConfirmDialog(Helloword.this, "¿Está seguro de que desea eliminar este usuario?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         model.removeRow(selectedRow); // Elimina la fila seleccionada del modelo de la tabla
                     }
                 } else {
                     // Muestra un mensaje de advertencia si no se ha seleccionado ninguna fila para eliminar
-                    JOptionPane.showMessageDialog(UserApplication.this, "Por favor, seleccione una fila para eliminar.");
+                    JOptionPane.showMessageDialog(Helloword.this, "Por favor, seleccione una fila para eliminar.");
                 }
             }
         });
+
+
+
 
         pack(); // Ajusta el tamaño de la ventana
         setVisible(true); // Hace visible la ventana
@@ -193,19 +174,9 @@ public class UserApplication extends JFrame {
     }
 
 
-    public static void main(String[] args) throws SQLException {
-
-        UserApplication UserApplication= new UserApplication();
-        // Configuración inicial de la ventana
-        UserApplication.setTitle("User Application"); // Establece el título de la ventana
-        UserApplication.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Configura la operación al cerrar la ventana
-
+    public static void main(String[] args) {
+        Helloword Helloword= new Helloword();
         // Hacer visible la ventana
-        UserApplication.setVisible(true);
-
-
-
+        Helloword.setVisible(true);
     }
-
-
 }

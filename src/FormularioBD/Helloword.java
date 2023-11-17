@@ -1,6 +1,6 @@
 package FormularioBD;
 
-import Tablas.UserApplication;
+
 import com.mysql.cj.xdevapi.Table;
 
 import javax.swing.*;
