@@ -7,8 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.sql.SQLException;
-
 public class UserApplication extends JFrame {
 
     // Declaración de variables para los componentes de la interfaz
@@ -64,6 +62,7 @@ public class UserApplication extends JFrame {
                 return column != 0; // Hacemos que la columna ID sea no editable
             }
         };
+
         // Agregar columnas al modelo de la tabla
         model.addColumn("ID");
         model.addColumn("Nombre");
@@ -193,8 +192,7 @@ public class UserApplication extends JFrame {
     }
 
 
-    public static void main(String[] args) throws SQLException {
-
+    public static void main(String[] args) {
         UserApplication UserApplication= new UserApplication();
         // Configuración inicial de la ventana
         UserApplication.setTitle("User Application"); // Establece el título de la ventana
@@ -203,9 +201,5 @@ public class UserApplication extends JFrame {
         // Hacer visible la ventana
         UserApplication.setVisible(true);
 
-
-
     }
-
-
 }

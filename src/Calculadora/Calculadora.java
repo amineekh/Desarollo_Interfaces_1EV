@@ -1,7 +1,7 @@
-package Calculadora;
+package Calculadora; // Declaración del paquete
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.*; // Importación de las clases de interfaz gráfica
+import java.awt.*; // Importación de clases para manejo de GUI
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -9,10 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener; //para poner solo numeros en la pantalla de la calculadora Y NO LETRAS
+import java.awt.event.KeyListener; // Para poner solo números en la pantalla de la calculadora y no letras
 
-//calculadora funcional
-public class Calculadora extends JFrame implements KeyListener{
+// Declaración de la clase principal que representa una calculadora
+public class Calculadora extends JFrame implements KeyListener {
+    // Declaración de variables de la calculadora
     private JTextField pantalla;
     private double resultado = 0;
     private String operador = "";
@@ -21,47 +22,47 @@ public class Calculadora extends JFrame implements KeyListener{
     private Stack<Double> numeros = new Stack<>();
     private Stack<Character> operadores = new Stack<>();
 
+    // Constructor de la clase Calculadora
     public Calculadora() {
-        // Configura la ventana
+        // Configuración de la ventana
         setTitle("Calculadora");
         setSize(300, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
 
-        // Crea un panel para la pantalla en la parte superior
+        // Creación de un panel para la pantalla en la parte superior
         JPanel panelPantalla = new JPanel();
         pantalla = new JTextField(13);
         pantalla.setHorizontalAlignment(JTextField.RIGHT);
-        pantalla.addKeyListener( this); //para poner solo numeros en la pantalla de la calculadora
-        // Configura el tamaño del texto de los botones
+        pantalla.addKeyListener(this); // Para permitir solo números en la pantalla de la calculadora
         pantalla.setFont(new Font("Arial", Font.PLAIN, 18));
 
-        // Crea un panel principal con un BorderLayout
+        // Creación de un panel principal con un BorderLayout
         JPanel panelPrincipal = new JPanel(new BorderLayout());
 
-        // Configura el color de fondo en la parte superior
+        // Configuración del color de fondo en la parte superior
         panelPantalla.setBackground(Color.black);
 
-        // Configura el margen superior del panel de texto
+        // Configuración del margen superior del panel de texto
         panelPantalla.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
 
-        // Configura el alto del JTextField (panel de pantalla) a un valor más grande
-        Dimension alto_panel_pantalla = new Dimension(pantalla.getPreferredSize().width, 45); // Cambia 35 al alto que desees
+        // Configuración del alto del JTextField (panel de pantalla) a un valor más grande
+        Dimension alto_panel_pantalla = new Dimension(pantalla.getPreferredSize().width, 45);
         pantalla.setPreferredSize(alto_panel_pantalla);
 
-        // Configura el color de fondo y el color de texto de la pantalla
+        // Configuración del color de fondo y el color de texto de la pantalla
         pantalla.setBackground(Color.black);
         pantalla.setForeground(Color.white);
 
         panelPantalla.add(pantalla);
 
-        // Crea el panel de botones
+        // Creación del panel de botones
         JPanel panelBotones = new JPanel(new GridLayout(5, 4, 5, 5)); // 5 filas para acomodar los botones especiales
 
-        // Configura el color de fondo del panel de botones
+        // Configuración del color de fondo del panel de botones
         panelBotones.setBackground(Color.black);
 
-        // Agrega los botones a panelBotones
+        // Adición de los botones a panelBotones
         String[] botones = {
                 "%", "√", "x²", "C",
                 "7", "8", "9", "/",
@@ -70,7 +71,7 @@ public class Calculadora extends JFrame implements KeyListener{
                 ".", "0", "=", "+",
         };
 
-        // Crea un mapa para asociar botones con colores de fondo
+        // Creación de un mapa para asociar botones con colores de fondo
         Map<String, Color> botonesColores = new HashMap<>();
         botonesColores.put("%", Color.blue);
         botonesColores.put("√", Color.blue);
@@ -81,7 +82,7 @@ public class Calculadora extends JFrame implements KeyListener{
         botonesColores.put("-", Color.blue);
         botonesColores.put("+", Color.blue);
 
-        // Crea un mapa para asociar botones con color de texto
+        // Creación de un mapa para asociar botones con color de texto
         Map<String, Color> botonesColoresTexto = new HashMap<>();
         botonesColoresTexto.put("%", Color.WHITE); // Color de texto para "%"
         botonesColoresTexto.put("√", Color.WHITE); // Color de texto para "√"
@@ -92,29 +93,30 @@ public class Calculadora extends JFrame implements KeyListener{
         botonesColoresTexto.put("-", Color.WHITE); // Color de texto para "-"
         botonesColoresTexto.put("+", Color.WHITE); // Color de texto para "+"
 
+        // Iteración sobre los botones y adición al panel
         for (String boton : botones) {
             JButton btn = new JButton(boton);
 
-            // Configura el tamaño de los botones
+            // Configuración del tamaño de los botones
             btn.setPreferredSize(new Dimension(20, 20));
 
-            // Configura el color de fondo y el color de texto de los botones
+            // Configuración del color de fondo y el color de texto de los botones
             btn.setBackground(Color.black);
             btn.setForeground(Color.green);
 
-            // Configura el tamaño real de los botones
+            // Configuración del tamaño real de los botones
             btn.setSize(btn.getPreferredSize());
 
-            // Configura el tamaño del texto de los botones
+            // Configuración del tamaño del texto de los botones
             btn.setFont(new Font("Arial", Font.PLAIN, 18));
 
-            // Verifica si el botón está en el mapa de colores y establece el color de fondo correspondiente
+            // Verificación si el botón está en el mapa de colores y establecimiento de color de fondo correspondiente
             if (botonesColores.containsKey(boton)) {
                 btn.setBackground(botonesColores.get(boton));
             } else {
                 btn.setBackground(Color.BLACK); // Color de fondo predeterminado para otros botones
             }
-            // Configura el color de texto de los botones
+            // Configuración del color de texto de los botones
             if (botonesColoresTexto.containsKey(boton)) {
                 btn.setForeground(botonesColoresTexto.get(boton));
             } else {
@@ -141,24 +143,22 @@ public class Calculadora extends JFrame implements KeyListener{
             panelBotones.add(btn);
         }
 
-        // Configura el margen de los botones
+        // Configuración del margen de los botones
         panelBotones.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Agrega los paneles al panel principal
+        // Adición de los paneles al panel principal
         panelPrincipal.add(panelPantalla, BorderLayout.NORTH);
         panelPrincipal.add(panelBotones, BorderLayout.CENTER);
 
-
-
-        // Agrega el panel principal a la ventana
+        // Adición del panel principal a la ventana
         add(panelPrincipal);
     }
 
     // Método para realizar operaciones en la calculadora
     private void operar(String boton) {
-        // Se verifica si el botón es de reinicio
+        // Verificación si el botón es de reinicio
         if (boton.equals("C")) {
-            // Se limpia la pantalla y se reinician las variables
+            // Limpieza de la pantalla y reinicio de las variables
             pantalla.setText("");
             resultado = 0;
             operador = "";
@@ -166,9 +166,9 @@ public class Calculadora extends JFrame implements KeyListener{
             numeros.clear();
             operadores.clear();
         }
-        // Se verifica si el botón es de alguna operación aritmética
+        // Verificación si el botón es de alguna operación aritmética
         else if (boton.matches("[+*/-]")) {
-            // Se guarda el operador en la pila de operadores y el número en la pila de números
+            // Almacenamiento del operador en la pila de operadores y el número en la pila de números
             operadores.push(boton.charAt(0));
             if (!pantalla.getText().isEmpty()) {
                 numeros.push(Double.parseDouble(pantalla.getText()));
@@ -176,12 +176,12 @@ public class Calculadora extends JFrame implements KeyListener{
             pantalla.setText("");
             inicio = true;
         }
-        // Se verifica si el botón es de igualdad para obtener el resultado
+        // Verificación si el botón es de igualdad para obtener el resultado
         else if (boton.equals("=")) {
             if (!pantalla.getText().isEmpty()) {
                 numeros.push(Double.parseDouble(pantalla.getText()));
             }
-            // Se realiza el cálculo de acuerdo con el operador almacenado
+            // Cálculo de acuerdo con el operador almacenado
             while (!operadores.isEmpty()) {
                 char operadorActual = operadores.pop();
                 double num2 = numeros.pop();
@@ -202,31 +202,31 @@ public class Calculadora extends JFrame implements KeyListener{
                 }
                 numeros.push(resultado);
             }
-            // Se muestra el resultado en la pantalla
+            // Mostrar el resultado en la pantalla
             pantalla.setText(String.valueOf(numeros.peek()));
             resultado = numeros.pop();
             inicio = true;
         }
-        // Se verifica si el botón es para agregar un punto decimal
+        // Verificación si el botón es para agregar un punto decimal
         else if (boton.equals(".")) {
             if (!pantalla.getText().contains(".")) {
                 pantalla.setText(pantalla.getText() + ".");
                 inicio = false;
             }
         }
-        // Se verifica si el botón es para calcular un porcentaje
+        // Verificación si el botón es para calcular un porcentaje
         else if (boton.equals("%")) {
             double numero = Double.parseDouble(pantalla.getText());
             resultado = numero / 100;
             pantalla.setText(String.valueOf(resultado));
         }
-        // Se verifica si el botón es para calcular la raíz cuadrada
+        // Verificación si el botón es para calcular la raíz cuadrada
         else if (boton.equals("√")) {
             double numero = Double.parseDouble(pantalla.getText());
             resultado = Math.sqrt(numero);
             pantalla.setText(String.valueOf(resultado));
         }
-        // Se verifica si el botón es para elevar un número al cuadrado
+        // Verificación si el botón es para elevar un número al cuadrado
         else if (boton.equals("x²")) {
             double numero = Double.parseDouble(pantalla.getText());
             resultado = Math.pow(numero, 2);
@@ -234,30 +234,31 @@ public class Calculadora extends JFrame implements KeyListener{
         }
     }
 
+    // Método principal para iniciar la aplicación
     public static void main(String[] args) {
-
-        Calculadora calculadora= new Calculadora();
-        // Hacer visible la ventana
+        // Creación de una instancia de la calculadora y hacer visible la ventana
+        Calculadora calculadora = new Calculadora();
         calculadora.setVisible(true);
         calculadora.setResizable(false);
-
     }
-    //para poner solo numeros en la pantalla de la calculadora Y NO LETRAS
+
+    // Implementación de métodos de la interfaz KeyListener
     @Override
     public void keyTyped(KeyEvent e) {
+        // Método para permitir solo números en la pantalla de la calculadora
         char c = e.getKeyChar();
-        if (Character.isLetter(c)){
+        if (Character.isLetter(c)) {
             e.consume();
         }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        // Métodos de la interfaz KeyListener no utilizados en este ejemplo
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        // Métodos de la interfaz KeyListener no utilizados en este ejemplo
     }
 }

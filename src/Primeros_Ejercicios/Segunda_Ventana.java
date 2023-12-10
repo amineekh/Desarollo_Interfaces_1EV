@@ -61,33 +61,7 @@ public class Segunda_Ventana {
         // Haz visible el JFrame
         f.setVisible(true);
 
-        /*
-        JFrame f=new JFrame();
-        JPanel p1=new JPanel();
-        JPanel p2=new JPanel();
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setBounds(200,150,500,250);
-        JButton boton1=new JButton("Boton 1");
-        JButton boton2=new JButton("Boton 2");
-        JButton boton3=new JButton("Boton 3");
 
-        f.add(boton1);
-        p1.add(boton2);
-        p2.add(boton3);
-
-        p1.setBackground(Color.BLUE);
-        p2.setBackground(Color.red);
-
-        f.add(boton1);
-        f.add(boton2);
-        f.add(boton3);
-
-        //f.setLayout(new FlowLayout);
-        //f.setLayout(new
-
-        f.setVisible(true);
-
-     */
     }
 
 
