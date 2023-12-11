@@ -5,6 +5,7 @@ import TA_Folmulario_MVC.Controlador.UserController;
 import TA_Folmulario_MVC.Modelo.UserModel;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
@@ -78,6 +79,21 @@ public class UserView extends JFrame {
         table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
+
+        // Definir un DefaultTableCellRenderer para ocultar la contraseña en la tabla
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+            @Override
+            protected void setValue(Object value) {
+                if (value instanceof String) {
+                    setText("\u2022\u2022\u2022\u2022\u2022\u2022"); // Mostrar "••••••" en lugar del texto real
+                } else {
+                    super.setValue(value);
+                }
+            }
+        };
+
+        // Aplicar el renderer a la columna de contraseñas (índice 5)
+        table.getColumnModel().getColumn(5).setCellRenderer(renderer);
 
         // Creación de los botones
         nuevo_Button = new JButton("Nuevo");
