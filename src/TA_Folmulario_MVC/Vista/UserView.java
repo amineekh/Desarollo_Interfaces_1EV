@@ -1,11 +1,17 @@
-package TA_Folmulario_MVC;
+// Importación de paquetes y clases necesarias
+package TA_Folmulario_MVC.Vista;
 
+import TA_Folmulario_MVC.Controlador.UserController;
+import TA_Folmulario_MVC.Modelo.UserModel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
+// Definición de la clase UserView que extiende de JFrame
 public class UserView extends JFrame {
+
+    // Declaración de componentes de la interfaz
     private JTextField nombre_Field, apellido_Field, DNI_Field, email_Field, idField;
     private JPasswordField pass_Field;
     private JButton nuevo_Button, borrar_Button, modificar_Button, añadir_Button;
@@ -13,10 +19,11 @@ public class UserView extends JFrame {
     private DefaultTableModel model;
     private int idCounter = 1;
 
+    // Constructor de la clase UserView
     public UserView(DefaultTableModel model) {
         this.model = model;
 
-        // Añadir márgenes a la ventana
+        // Configuración de márgenes en la ventana
         int marginSize = 20; // Tamaño del margen en píxeles
         this.getRootPane().setBorder(BorderFactory.createEmptyBorder(marginSize, marginSize, marginSize, marginSize));
 
@@ -55,7 +62,7 @@ public class UserView extends JFrame {
         model = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column != 0;
+                return column != 0; // La columna ID no es editable
             }
         };
 
@@ -71,12 +78,34 @@ public class UserView extends JFrame {
         table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
-        // Resto del código...
 
-        pack(); // Ajusta el tamaño de la ventana
-        setVisible(true); // Hace visible la ventana
+        // Creación de los botones
+        nuevo_Button = new JButton("Nuevo");
+        borrar_Button = new JButton("Borrar");
+        modificar_Button = new JButton("Modificar");
+        añadir_Button = new JButton("Añadir");
+
+        // Creación del panel para los botones y adición de los botones al panel
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.add(nuevo_Button);
+        buttonPanel.add(borrar_Button);
+        buttonPanel.add(modificar_Button);
+        buttonPanel.add(añadir_Button);
+
+        // Agregar el panel de botones en la parte inferior de la ventana
+        add(buttonPanel, BorderLayout.SOUTH);
+
+        // Configuración del controlador
+        UserController controller = new UserController(new UserModel(model), this);
+        setController(controller);
+
+        // Ajusta el tamaño de la ventana
+        pack();
+        // Hace visible la ventana
+        setVisible(true);
     }
 
+    // Método para establecer el controlador en los botones
     public void setController(UserController controller) {
         nuevo_Button.addActionListener(controller.getNuevoButtonListener());
         añadir_Button.addActionListener(controller.getAñadirButtonListener());
@@ -84,6 +113,9 @@ public class UserView extends JFrame {
         borrar_Button.addActionListener(controller.getBorrarButtonListener());
     }
 
+    // Otros métodos de UserView...
+
+    // Método para limpiar los campos de texto del formulario
     public void clearFields() {
         nombre_Field.setText("");
         apellido_Field.setText("");
@@ -92,6 +124,8 @@ public class UserView extends JFrame {
         pass_Field.setText("");
     }
 
+
+    // Métodos de obtención de componentes
     public JTable getTable() {
         return table;
     }
@@ -118,5 +152,18 @@ public class UserView extends JFrame {
 
     public JTextField getIdField() {
         return idField;
+    }
+
+    // Método principal que inicia la aplicación
+    public static void main(String[] args) {
+        DefaultTableModel model = new DefaultTableModel();
+        UserView userView = new UserView(model);
+
+        // Configuración inicial de la ventana
+        userView.setTitle("xxx MVC xxx");
+        userView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Hacer visible la ventana
+        userView.setVisible(true);
     }
 }
