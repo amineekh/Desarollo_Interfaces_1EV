@@ -4,9 +4,12 @@ package Tablas;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.util.Arrays;
 
 public class UserApplication_Orden extends JFrame {
 
@@ -76,6 +79,8 @@ public class UserApplication_Orden extends JFrame {
         table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER); // Agregar la tabla en el centro de la ventana
+
+
 
         // Definir un DefaultTableCellRenderer para ocultar la contraseña en la tabla
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
@@ -196,7 +201,7 @@ public class UserApplication_Orden extends JFrame {
     public static void main(String[] args) {
         UserApplication UserApplication= new UserApplication();
         // Configuración inicial de la ventana
-        UserApplication.setTitle("User Application"); // Establece el título de la ventana
+        UserApplication.setTitle("User Application Orden"); // Establece el título de la ventana
         UserApplication.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Configura la operación al cerrar la ventana
 
         // Hacer visible la ventana

@@ -1,8 +1,10 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class Helloword extends JFrame {
     private JPanel mainpanel;
@@ -62,6 +64,7 @@ public class Helloword extends JFrame {
         // Asignar el modelo a la tabla
         table.setModel(model);
 
+
         // Definir un DefaultTableCellRenderer para ocultar la contraseña en la tabla
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
             @Override
@@ -82,6 +85,17 @@ public class Helloword extends JFrame {
         setTitle("Hello World");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(mainpanel); // Establecer el panel principal
+
+        // Configuracion de ordenamiento
+        // Crea un objeto TableRowSorter
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+        // Asocia el objeto TableRowSorter a la tabla
+        table.setRowSorter(sorter);
+        // Configura el orden de ordenación de tabla
+        // La tabla se ordenará por la columna 2 de manera ascendente
+        sorter.setSortKeys(Arrays.asList(new RowSorter.SortKey(2, SortOrder.ASCENDING)));
+        // Ordena la tabla según la configuración establecida
+        sorter.sort();
 
         //CONFIGURACION DE LOS BOTONES
         // Acción para el botón Nuevo
