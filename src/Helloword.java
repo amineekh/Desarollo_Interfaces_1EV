@@ -17,7 +17,6 @@ public class Helloword extends JFrame {
 
     private JPasswordField pass_Field;
 
-
     private JButton añadir_Button;
     private JButton nuevo_Button;
     private JButton borrar_Button;
@@ -170,8 +169,6 @@ public class Helloword extends JFrame {
                 }
             }
         });
-
-
 
 
         pack(); // Ajusta el tamaño de la ventana
